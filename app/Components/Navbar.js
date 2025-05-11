@@ -6,7 +6,7 @@ import { Menu } from 'lucide-react';
 const Navbar = () => {
     const [hidden, sethidden] = useState(true)
     return (
-        <div className="bg-[rgba(8,12,22,0.76)] text-white sm:h-[10vh] min-h-[10vh] h-auto sm:mt-0 pt-5 w-screen px-4 fixed z-[3]">
+        <div className="bg-[rgba(8,12,22,0.76)] text-white sm:h-[10vh] min-h-[10vh] h-auto sm:pt-0 pt-5 w-screen px-4 fixed z-[3]">
             <div className='flex items-center h-full'>
                 <div>
                     <h1 className='text-2xl font-extrabold tracking-wider border-r-2 border-r-white pr-3'>Futureal</h1>
