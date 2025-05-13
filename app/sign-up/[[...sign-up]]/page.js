@@ -28,12 +28,13 @@ const Page = () => {
   const router = useRouter()
   const formSchema = z
     .object({
-      name: z.string().min(1, "Name is required"),
+      first_name: z.string().min(1, "First name is required"),
+      last_name: z.string().min(1, "Last name is required"),
       email: z.string().email("Invalid email address"),
       class: z.string().min(1, "Class is required"),
-      foi: z.string().min(1, "Field of Interest is required"),
-      phonenumber: z.string().min(10, "Phone number is too short"),
-      admin_no: z.string().min(1, "Admin number is required"),
+      foi: z.number().min(1, "Field of Interest is required"),
+      phonenumber: z.number().min(10, "Phone number is too short"),
+      admin_no: z.number().min(1, "Admin number is required"),
       password: z.string().min(8, "Password must be at least 8 characters"),
       passwordConfirmation: z.string(),
     })
@@ -61,17 +62,20 @@ const Page = () => {
       await signUp.create({
         emailAddress: data.email,
         password: data.password,
+        firstName: data.first_name,
+        lastName: data.last_name,
+        username: crypto.randomUUID(),
         publicMetadata: {
-          name: data.name,
           class: data.class,
           foi: data.foi,
           phonenumber: data.phonenumber,
           admin_no: data.admin_no,
         },
         privateMetadata: {
-          role: "member", // or data.role if dynamic
+          role: "member",
         },
       });
+
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setVerifying(true);
@@ -179,19 +183,38 @@ const Page = () => {
         <form onSubmit={handleSubmit(onSubmit)} className="min-w-[40vw]  space-y-4 just border-2 border-white p-5 rounded-lg">
           <div className=" space-y-2">
             <label htmlFor="name" className="text-sm font-medium">
-              Full Name
+              First Name
             </label>
             <div className="relative">
               <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
               <Input
-                id="name"
+                id="first_name"
                 name="name"
-                placeholder="John Doe"
+                placeholder="John"
                 className="pl-10 text-black"
-                {...register("name")}
+                {...register("first_name")}
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.first_name}</p>}
+          </div>
+
+          <div className=" space-y-2">
+            <label htmlFor="name" className="text-sm font-medium">
+              Last Name
+            </label>
+            <div className="relative">
+              <User className="absolute left-3 top-2.5 h-5 w-5 text-muted-foreground" />
+              <Input
+                id="last_name"
+                name="name"
+                placeholder="Doe"
+                className="pl-10 text-black"
+                {...register("last_name")}
+                required
+              />
+            </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.last_name}</p>}
           </div>
 
           <div className="space-y-2">
@@ -210,6 +233,7 @@ const Page = () => {
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
           <div className="space-y-2">
@@ -227,18 +251,19 @@ const Page = () => {
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.class}</p>}
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="foi" className="text-sm font-medium text-black">
+            <label htmlFor="foi" className="text-sm font-medium">
               Field of Interest
             </label>
             <Select onValueChange={(value) => setValue("foi", value)}
             >
-              <SelectTrigger>
+              <SelectTrigger className="text-black">
                 <SelectValue placeholder="Select your field of interest" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent className="text-black">
                 <SelectItem value="web">Web Development</SelectItem>
                 <SelectItem value="mobile">Mobile Development</SelectItem>
                 <SelectItem value="ai">Artificial Intelligence</SelectItem>
@@ -264,6 +289,7 @@ const Page = () => {
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.phonenumber}</p>}
           </div>
 
           <div className="space-y-2">
@@ -281,6 +307,7 @@ const Page = () => {
                 required
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.admin_no}</p>}
           </div>
 
           <div className="space-y-2">
@@ -300,6 +327,7 @@ const Page = () => {
                 {...register("password")}
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
           <div className="space-y-2">
@@ -322,6 +350,7 @@ const Page = () => {
                 {...register("passwordConfirmation")}
               />
             </div>
+            {errors.email && <p className="text-red-500 text-sm">{errors.passwordConfirmation}</p>}
           </div>
 
           <Button
