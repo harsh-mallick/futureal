@@ -11,7 +11,7 @@ export default function Home() {
   ]
   return (
     <div className="max-w-screen" >
-      <div className="bg-[rgb(8,12,25)] text-white pt-[10vh] sm:h-[100vh] h-auto min-h-screen pb-[2vh]" >
+      <div className="bg-[rgb(8,12,25)] text-white pt-[10vh] sm:h-[100vh] h-auto min-h-screen pb-[2vh] " style={{ boxShadow: "inset 0px 1px 60px black" }}>
         <video autoPlay loop muted playsInline className="absolute z-[0] sm:h-full h-[90rem] w-full top-0 left-0 object-cover" style={{ mixBlendMode: "color-dodge", opacity: '0.4' }}>
           <source src="./circuit.mp4" />
         </video>

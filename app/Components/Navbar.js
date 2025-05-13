@@ -1,10 +1,12 @@
 "use client"
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Link } from "next/link"
 import { SignedIn, SignInButton, SignedOut, UserButton, SignUpButton } from "@clerk/nextjs"
 import { Menu } from 'lucide-react';
 const Navbar = () => {
     const [hidden, sethidden] = useState(true)
+    const router = useRouter()
     return (
         <div className="bg-[rgba(8,12,22,0.76)] text-white sm:h-[10vh] min-h-[10vh] h-auto sm:pt-0 pt-5 w-screen px-4 fixed z-[3]">
             <div className='flex items-center h-full'>
@@ -13,7 +15,7 @@ const Navbar = () => {
                 </div>
                 <div className='hidden w-full sm:flex'>
                     <div className='flex justify-center w-[77%] gap-5 text-base items-center'>
-                        <p className='cursor-pointer font-bold hover:text-gray-200'>Home</p>
+                        <p className='cursor-pointer font-bold hover:text-gray-200' onClick={() => { router.push('/') }}>Home</p>
                         <p className='cursor-pointer font-bold hover:text-gray-200'>About</p>
                         <p className='cursor-pointer font-bold hover:text-gray-200'>Core Team</p>
                         <p className='cursor-pointer font-bold hover:text-gray-200'>Upcoming Competitions</p>
