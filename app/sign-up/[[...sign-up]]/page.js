@@ -111,6 +111,27 @@ const Page = () => {
       setIsSubmitting(false)
     }
   };
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const particleCount = 17;
+    const newParticles = [];
+
+    const colors = ['#3B82F6', '#10B981', '#7C3AED', '#0EA5E9', '#6366F1'];
+
+    for (let i = 0; i < particleCount; i++) {
+      newParticles.push({
+        key: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 3 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    setParticles(newParticles);
+  }, []);
+
   if (verifying) {
     if (verifying) {
       return (
@@ -170,27 +191,6 @@ const Page = () => {
     }
     ;
   }
-
-  const [particles, setParticles] = useState([]);
-
-  useEffect(() => {
-    const particleCount = 17;
-    const newParticles = [];
-
-    const colors = ['#3B82F6', '#10B981', '#7C3AED', '#0EA5E9', '#6366F1'];
-
-    for (let i = 0; i < particleCount; i++) {
-      newParticles.push({
-        key: i,
-        x: Math.random() * window.innerWidth,
-        y: Math.random() * window.innerHeight,
-        radius: Math.random() * 3 + 2,
-        color: colors[Math.floor(Math.random() * colors.length)],
-      });
-    }
-
-    setParticles(newParticles);
-  }, []);
 
   return (
     <div className="parent text-white pt-[10vh] sm:h-auto h-auto min-h-screen pb-[2vh] z-[-1]">
