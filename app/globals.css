@@ -126,3 +126,7 @@
 .font_audiowide {
   font-family: "Audiowide", sans-serif;
 }
+
+.parent {
+  background-image: linear-gradient(to bottom, #080f27, #080e20);
+}

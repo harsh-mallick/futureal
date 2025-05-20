@@ -28,7 +28,7 @@ export default function Home() {
           <div className="sm:flex gap-4 justify-center text-lg ml-auto justify-items-center">
             {Array.isArray(cards) && cards.map((data) => {
               return (
-                <div key={data.head} className="border-1 border-gray-800 h-46 text-center mt-8 px-5 w-62 rounded-xl bg-[#0c12268f] hover:scale-105 transition-all ease-in">
+                <div key={data.head} className="backdrop-blur-[4px] border-1 border-gray-800 h-46 text-center mt-8 px-5 w-62 rounded-xl bg-[#0c12268f] hover:scale-105 transition-all ease-in">
                   <div className="w-full flex justify-center mt-4"><p className={["flex justify-center w-10 h-10 rounded-4xl items-center", data.text_colour, data.bg_colour].join(" ")}>{data.icon}</p></div>
                   <p className="font-black mt-4">{data.head}</p>
                   <p className="text-wrap mt-3 text-base">{data.desc}</p>

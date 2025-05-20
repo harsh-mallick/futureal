@@ -2,13 +2,15 @@
 import React from "react";
 import { useSignUp } from "@clerk/nextjs";
 import { z } from "zod";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
-import { Mail, Lock, User, Loader2, Phone, BookOpen, Hash } from "lucide-react";
+import { Mail, Lock, User, Loader2, Phone, BookOpen, Hash, Repeat } from "lucide-react";
+import { mirrorEasing, motion } from "motion/react"
+import "../../globals.css"
 import {
   Select,
   SelectContent,
@@ -168,19 +170,75 @@ const Page = () => {
     }
     ;
   }
+
+  const [particles, setParticles] = useState([]);
+
+  useEffect(() => {
+    const particleCount = 17;
+    const newParticles = [];
+
+    const colors = ['#3B82F6', '#10B981', '#7C3AED', '#0EA5E9', '#6366F1'];
+
+    for (let i = 0; i < particleCount; i++) {
+      newParticles.push({
+        key: i,
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+        radius: Math.random() * 3 + 2,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    setParticles(newParticles);
+  }, []);
+
   return (
-    <div className="bg-[rgb(8,12,25)] text-white pt-[10vh] sm:h-auto h-auto min-h-screen pb-[2vh] ">
-      <div className="text-center mb-8">
-        <h1 className="text-3xl font-space-grotesk font-bold mb-2">
+    <div className="parent text-white pt-[10vh] sm:h-auto h-auto min-h-screen pb-[2vh] z-[-1]">
+      {Array.isArray(particles) && particles.map((particle) => (
+        <motion.div
+          key={particle.key}
+          initial={{ top: particle.y, left: particle.x }}
+          animate={{
+            x: [
+              `${Math.random() * 10 - 5}vw`,
+              `${Math.random() * 10 - 5}vw`,
+              `${Math.random() * 10 - 5}vw`,
+            ],
+            y: [
+              `${Math.random() * 10 - 5}vh`,
+              `${Math.random() * 10 - 5}vh`,
+              `${Math.random() * 10 - 5}vh`,
+            ]
+          }}
+          transition={{
+            repeat: Infinity,
+            repeatType: 'mirror',
+            duration: 20,
+            ease: 'easeInOut',
+          }}
+          style={{
+            backgroundColor: `${particle.color}`,
+            borderRadius: "50%",
+            width: `${particle.radius}rem`,
+            height: `${particle.radius}rem`,
+            position: "fixed",
+            filter: "blur(8px)",
+            zIndex: "0",
+            content: " "
+          }}
+        />
+      ))}
+      <div className="text-center mb-4 mt-2 z-[2]">
+        <h1 className="text-3xl font-space-grotesk font-bold mb-2 z-[2]">
           Create Account
         </h1>
         <p className="text-muted-foreground">
           Join Futureal and explore the world of technology
         </p>
       </div>
-      <div className="w-full justify-items-center grid">
-        <form onSubmit={handleSubmit(onSubmit)} className="min-w-[40vw]  space-y-4 just border-2 border-white p-5 rounded-lg">
-          <div className=" space-y-2">
+      <div className="w-full justify-items-center grid z-[-2]">
+        <form onSubmit={handleSubmit(onSubmit)} className="backdrop-blur-xl z-[2] min-w-[40vw] h-[70vh] w-[80vw] space-y-4 just border-2 border-white p-5 rounded-lg flex flex-col flex-wrap content-stretch justify-evenly items-stretch">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="name" className="text-sm font-medium">
               First Name
             </label>
@@ -189,7 +247,7 @@ const Page = () => {
               <Input
                 id="first_name"
                 name="name"
-                placeholder="John"
+                placeholder="First Name"
                 className="pl-10 text-black"
                 {...register("first_name")}
                 required
@@ -198,7 +256,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.first_name}</p>}
           </div>
 
-          <div className=" space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="name" className="text-sm font-medium">
               Last Name
             </label>
@@ -207,7 +265,7 @@ const Page = () => {
               <Input
                 id="last_name"
                 name="name"
-                placeholder="Doe"
+                placeholder="Last"
                 className="pl-10 text-black"
                 {...register("last_name")}
                 required
@@ -216,7 +274,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.last_name}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="email" className="text-sm font-medium">
               Email
             </label>
@@ -235,7 +293,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="class" className="text-sm font-medium">
               Class
             </label>
@@ -253,7 +311,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.class}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="foi" className="text-sm font-medium">
               Field of Interest
             </label>
@@ -272,7 +330,7 @@ const Page = () => {
             </Select>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="phonenumber" className="text-sm font-medium">
               Phone Number
             </label>
@@ -291,7 +349,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.phonenumber}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="admin_no" className="text-sm font-medium">
               Admin Number
             </label>
@@ -309,7 +367,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.admin_no}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label htmlFor="password" className="text-sm font-medium">
               Password
             </label>
@@ -329,7 +387,7 @@ const Page = () => {
             {errors.email && <p className="text-red-500 text-sm">{errors.password}</p>}
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-2 mx-3.5 w-lg">
             <label
               htmlFor="passwordConfirmation"
               className="text-sm font-medium"
@@ -354,7 +412,7 @@ const Page = () => {
 
           <Button
             type="submit"
-            className="w-full cursor-pointer"
+            className="w-[25rem] cursor-pointer text-[1.3rem] self-center bg-[#21275b] hover:bg-[#343479]"
             size="lg"
             disabled={isSubmitting}
           >
